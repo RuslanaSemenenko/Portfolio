@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
+import Axios from 'axios'; // Імпорт Axios
 import contactImg from '../img/emile-4.png';
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
@@ -23,11 +24,28 @@ export const Contact = () => {
     });
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    setButtonText('Send');
-    setFormDetails(formInitialDetails);
-    setStatus({ success: true, message: 'Message sent successfully' });
+
+    try {
+      setButtonText('Sending...');
+      const response = await Axios.post(
+        'https://formspree.io/f/xnqkodwp',
+        formDetails
+      );
+
+      if (response.status === 200) {
+        setStatus({ success: true, message: 'Message sent successfully' });
+
+        // Очищення значень полів форми
+        setFormDetails(formInitialDetails);
+      } else {
+        setStatus({ success: false, message: 'Failed to send message' });
+      }
+    } catch (error) {
+      setStatus({ success: false, message: 'Failed to send message' });
+    }
+
     setTimeout(() => setStatus({}), 5000);
   };
 
@@ -109,11 +127,7 @@ export const Contact = () => {
                       </Col>
                       {status.message && (
                         <Col>
-                          <p
-                            className={
-                              status.succes === false ? 'danger' : 'success'
-                            }
-                          >
+                          <p className={status.success ? 'success' : 'danger'}>
                             {status.message}
                           </p>
                         </Col>

@@ -2,7 +2,7 @@ import { Container, Row, Col, Tab, Nav } from 'react-bootstrap';
 import { ProjectCard } from './ProjectCard';
 import projImg1 from '../img/Photo-1.jpg';
 import projImg2 from '../img/Photo-2.jpg';
-import projImg3 from '../img/Photo-3.jpg';
+import projImg3 from '../img/cinema-2.avif';
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
 
